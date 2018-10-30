@@ -191,9 +191,6 @@ public:
 
 			//get variables
 			float axisVectLength = sqrt((p2.x - p1.x) * (p2.x - p1.x) + (p2.y - p1.y) * (p2.y - p1.y) + (p2.z - p1.z) * (p2.z - p1.z));
-			float cosA = cos(theta);
-			float oneC = 1 - cosA;
-			float sinA = sin(theta);
 			float ux = (p2.x - p1.x) / axisVectLength;
 			float uy = (p2.y - p1.y) / axisVectLength;
 			float uz = (p2.z - p1.z) / axisVectLength;
@@ -247,10 +244,11 @@ public:
 
 	//Write Polygon Buffer to output file!
 	void writeBack(std::ofstream& file) {
-		file << vertexCount << endl;;
+		file << vertexCount << endl;
 		for (int i = 0; i < vertexCount; i++) {
-			file << vertices[i].x << " " << vertices[i].y << endl;
+			file << vertices[i].x << " " << vertices[i].y << " " << vertices[i].z << endl;
 		}
+		file << edgeCount << endl;
 		for (int i = 0; i < edgeCount; i++) {
 			file << edges[i].a << " " << edges[i].b << endl;
 		}
@@ -573,25 +571,28 @@ Vertex toNDCtoPixel(float x, float y, float z, int mode) {
 	if (mode == 1) {
 		xNDC = (x - boundaryBox.Xmin) / Delta;
 		yNDC = (y - boundaryBox.Ymin) / Delta;
-		point.x = int(xNDC * 250);
-		point.y = int(yNDC * 250);
-		point.y += 249;
+		point.x = int(xNDC * 230);
+		point.y = int(yNDC * 230);
+		point.y += 259;
+		point.x += 9;
 		return point;
 	}//If mode is 2, set for XZ quadrant
 	else if (mode == 2) {
 		xNDC = (x - boundaryBox.Xmin) / Delta;
 		zNDC = (z - boundaryBox.Zmin) / Delta;
-		point.x = int(xNDC * 250);
-		point.z = int(zNDC * 250);
-		point.x += 249;
-		point.z += 249;
+		point.x = int(xNDC * 230);
+		point.z = int(zNDC * 230);
+		point.x += 259;
+		point.z += 259;
 		return point;
 	}
 	//Else it set for YZ quadrant
 	yNDC = (y - boundaryBox.Ymin) / Delta;
 	zNDC = (z - boundaryBox.Zmin) / Delta;
-	point.y = int(yNDC * 250);
-	point.z = int(zNDC * 250);
+	point.y = int(yNDC * 230);
+	point.z = int(zNDC * 230);
+	point.y += 9;
+	point.z += 9;
 	return point;
 }
 
