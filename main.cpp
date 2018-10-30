@@ -182,6 +182,10 @@ public:
 	void rotate(double theta, Vertex p1, Vertex p2) {
 		//Make temperary vertices
 		Vertex temp1, temp2;
+		
+		//Convert theta(Degrees) to Radians
+		double pi = acos(-1);
+		theta = (double)theta / 180.0 * pi;
 		// Do this for every vertex
 		for (int i = 0; i < vertexCount; i++) {
 			//Step 1 Translate
@@ -466,11 +470,11 @@ void getSettings2() {
 	}
 
 	else if (choice == 3) {//Rotation
-		float alpha;
+		float theta;
 		Vertex a;
 		Vertex b;
-		cout << "Radians Rotate: ";
-		cin >> alpha;
+		cout << "Degrees Rotate: ";
+		cin >> theta;
 		cout << "Point 1 x: ";
 		cin >> a.x;
 		cout << "Point 1 y: ";
@@ -483,7 +487,7 @@ void getSettings2() {
 		cin >> b.y;
 		cout << "Point 2 z: ";
 		cin >> b.z;
-		polyhedras[currentID - 1].rotate(alpha, a, b);
+		polyhedras[currentID - 1].rotate(theta, a, b);
 		setBoundaryBox();
 		writeBack();
 	}
